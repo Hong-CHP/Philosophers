@@ -6,7 +6,7 @@
 /*   By: hporta-c <hporta-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 11:38:01 by hporta-c          #+#    #+#             */
-/*   Updated: 2025/06/26 15:22:59 by hporta-c         ###   ########.fr       */
+/*   Updated: 2025/06/27 16:18:07 by hporta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,12 @@ int	ft_atoi(char *str)
 		i++;
 	}
 	return (nb * flag);
+}
+
+long long	get_time(void)
+{
+	struct timeval actual;
+	
+	gettimeofday(&actual, NULL);
+	return (actual.tv_sec * 1000 + actual.tv_usec / 1000);
 }
