@@ -6,17 +6,23 @@
 /*   By: hporta-c <hporta-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 11:38:01 by hporta-c          #+#    #+#             */
-/*   Updated: 2025/06/27 16:18:07 by hporta-c         ###   ########.fr       */
+/*   Updated: 2025/06/29 13:26:42 by hporta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	ft_atoi(char *str)
+void	ft_putstr(char *str)
+{
+	while(*str)
+		write(1, str++, 1);
+}
+
+long long	ft_atoi(char *str)
 {
 	int	i;
-	int	flag;
-	int	nb;
+	long long	flag;
+	long long	nb;
 	
 	flag = 1;
 	i = 0;
@@ -44,4 +50,16 @@ long long	get_time(void)
 	
 	gettimeofday(&actual, NULL);
 	return (actual.tv_sec * 1000 + actual.tv_usec / 1000);
+}
+
+void	clean_all(t_table *table, t_params *p_data)
+{
+	if (p_data)
+		free(p_data);
+	if (table->forks)
+		free(table->forks);
+	if (table->philos)
+		free(table->philos);
+	if (table)
+		free(table);
 }

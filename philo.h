@@ -6,7 +6,7 @@
 /*   By: hporta-c <hporta-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 10:44:17 by hporta-c          #+#    #+#             */
-/*   Updated: 2025/06/27 16:27:54 by hporta-c         ###   ########.fr       */
+/*   Updated: 2025/06/29 13:26:53 by hporta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,16 @@
 # include <sys/time.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <string.h>
+
+typedef struct	s_table t_table;
+typedef struct	s_philo t_philo;
 
 typedef struct	s_params
 {
 	int			nb_of_philos;
-	long long	time_to_eat;
 	long long	time_to_die;
+	long long	time_to_eat;
 	long long	time_to_sleep;
 	int			nb_times_of_eat;
 }				t_params;
@@ -48,7 +52,9 @@ typedef	struct	s_philo
 	t_table 		*table;
 }					t_philo;
 
-int	ft_atoi(char *str);
+void	ft_putstr(char *str);
+long long	ft_atoi(char *str);
 long long	get_time(void);
+void	clean_all(t_table *table, t_params *p_data);
 
 #endif
