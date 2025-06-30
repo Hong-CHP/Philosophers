@@ -6,7 +6,7 @@
 /*   By: hporta-c <hporta-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 10:44:17 by hporta-c          #+#    #+#             */
-/*   Updated: 2025/06/29 13:26:53 by hporta-c         ###   ########.fr       */
+/*   Updated: 2025/06/30 17:52:57 by hporta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ typedef struct	s_philo t_philo;
 
 typedef struct	s_params
 {
-	int			nb_of_philos;
 	long long	time_to_die;
 	long long	time_to_eat;
 	long long	time_to_sleep;
@@ -36,8 +35,9 @@ typedef struct	s_table
 {
 	int				nb_philos;
 	long long 		start_time;
-	t_philo			*philos;
+	t_params		*p_data;
 	pthread_mutex_t	*forks;
+	t_philo			*philos;
 	pthread_mutex_t	log_print;
 	pthread_mutex_t	life_data;
 }					t_table;
@@ -55,6 +55,13 @@ typedef	struct	s_philo
 void	ft_putstr(char *str);
 long long	ft_atoi(char *str);
 long long	get_time(void);
-void	clean_all(t_table *table, t_params *p_data);
+t_params	*get_val_from_params(char **av);
+void	clean_all(t_table *table);
+void	init_mutex(t_table *table);
+void	destory_mutex(t_table *table);
+void	print_routine(t_philo *philo, char *msg);
+void	thinking(t_philo *philo);
+void	take_forks_and_eating(t_philo *philo);
+void	sleeping(t_philo *philo);
 
 #endif
