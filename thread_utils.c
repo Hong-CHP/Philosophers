@@ -6,7 +6,7 @@
 /*   By: hporta-c <hporta-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:14:20 by hporta-c          #+#    #+#             */
-/*   Updated: 2025/06/30 17:52:00 by hporta-c         ###   ########.fr       */
+/*   Updated: 2025/07/01 17:23:37 by hporta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,3 @@ void	destory_mutex(t_table *table)
 	pthread_mutex_destroy(&(table->life_data));
 }
 
-void    print_routine(t_philo *philo, char *msg)
-{
-    long long   timestamp;
-    
-    pthread_mutex_lock(&(philo->table->log_print));
-    timestamp = get_time() - philo->table->start_time;
-    printf("%lld %d %s\n", timestamp, philo->id, msg);
-    pthread_mutex_unlock(&(philo->table->log_print));
-}

@@ -6,53 +6,54 @@
 /*   By: hporta-c <hporta-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 10:44:02 by hporta-c          #+#    #+#             */
-/*   Updated: 2025/06/30 17:59:04 by hporta-c         ###   ########.fr       */
+/*   Updated: 2025/07/01 17:52:22 by hporta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	*philo_routine(void *args)
-{
-	t_philo	*philo;
-
-	philo = (t_philo *)args;
-	while (still_alive(philo))
-	{
-		thinking(philo);
-		take_forks_and_eating(philo);
-		sleeping(philo);
-	}
-	return (NULL);
-}
-
-void	create_childs_thread(t_table *table, char **argv)
+void	create_childs_thread(pthread_t *philosof, pthread_t *cntrl, t_table *t)
 {
 	int	i;
-	pthread_t	*philosof;
 
-	philosof = malloc(sizeof(pthread_t) * table->nb_philos);
-	if (!philosof)
-	{
-		clean_all(table);
-		return ;
-	}
+	pthread_create(cntrl, NULL, death_control, t);
 	i = 0;
-	while (i < table->nb_philos)
+	while (i < t->nb_philos)
 	{
-		pthread_create(&philosof[i], NULL, philo_routine, &(table->philos[i]));
+		pthread_create(&philosof[i], NULL, philo_routine, &(t->philos[i]));
 		i++;
 	}
+	pthread_join(cntrl, NULL);
 	i = 0;
-	while (i < table->nb_philos)
+	while (i < t->nb_philos)
 	{
 		pthread_join(philosof[i], NULL);
 		i++;
 	}
-	free(philosof);
 }
 
-int	init_philo(t_table *table, char **av)
+int	childs_thread(t_table *table)
+{
+	int	i;
+	pthread_t	*philosof;
+	pthread_t	*controller;
+
+	philosof = malloc(sizeof(pthread_t) * table->nb_philos);
+	if (!philosof)
+		return (1);
+	controller = malloc(sizeof(pthread_t));
+	if (!controller)
+	{
+		free(philosof);
+		return (1);
+	}
+	create_childs_thread(philosof, controller, table);
+	free(philosof);
+	free(controller);
+	return (0);
+}
+
+int	init_philo(t_table *table)
 {
 	int	i;
 
@@ -80,20 +81,22 @@ int	center_thread_init_table(t_table *table, char **av)
 		return (1);
 	//初始时间
 	table->start_time = get_time();
+	table->death = 0;
 	table->forks = malloc(sizeof(pthread_mutex_t) * table->nb_philos);
 	if (!table->forks)
-	{
-		free(table);
 		return (1);
-	}
 	// 初始叉子锁， 打印锁和生命锁, 初始锁失败直接clean & exit
 	init_mutex(table);
-	if (init_philo(table, av) != 0)
+	if (init_philo(table) != 0)
 	{
 		destory_mutex(table);
 		return (1);
 	}
-	create_childs_thread(table, av);
+	if (childs_thread(table) != 0)
+	{
+		destory_mutex(table);
+		return (1);
+	}
 	destory_mutex(table);
 	return (0);
 }

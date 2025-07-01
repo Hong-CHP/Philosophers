@@ -6,7 +6,7 @@
 /*   By: hporta-c <hporta-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 10:44:17 by hporta-c          #+#    #+#             */
-/*   Updated: 2025/06/30 17:52:57 by hporta-c         ###   ########.fr       */
+/*   Updated: 2025/07/01 17:01:21 by hporta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct	s_table
 {
 	int				nb_philos;
 	long long 		start_time;
+	int				death;
 	t_params		*p_data;
 	pthread_mutex_t	*forks;
 	t_philo			*philos;
@@ -60,8 +61,11 @@ void	clean_all(t_table *table);
 void	init_mutex(t_table *table);
 void	destory_mutex(t_table *table);
 void	print_routine(t_philo *philo, char *msg);
+void	*philo_routine(void *args);
+void	*death_control(void *args);
 void	thinking(t_philo *philo);
 void	take_forks_and_eating(t_philo *philo);
 void	sleeping(t_philo *philo);
+int		everybd_ate_enough(t_table *control);
 
 #endif
