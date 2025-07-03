@@ -6,7 +6,7 @@
 /*   By: hporta-c <hporta-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:38:14 by hporta-c          #+#    #+#             */
-/*   Updated: 2025/07/02 17:43:48 by hporta-c         ###   ########.fr       */
+/*   Updated: 2025/07/03 15:22:21 by hporta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,12 @@ int	take_first_fork(t_philo *philo)
 int	take_second_fork(t_philo *philo)
 {
 	if (philo->table->nb_philos == 1)
+	{
+		while (get_time() - philo->last_eat < philo->table->data->die_t)
+			;
+		pthread_mutex_unlock(philo->left);
 		return (0);
+	}
 	if (philo->id % 2 == 0)
 		pthread_mutex_lock(philo->left);
 	else

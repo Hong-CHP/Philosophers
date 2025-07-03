@@ -6,7 +6,7 @@
 /*   By: hporta-c <hporta-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 16:50:03 by hporta-c          #+#    #+#             */
-/*   Updated: 2025/07/02 17:42:31 by hporta-c         ###   ########.fr       */
+/*   Updated: 2025/07/03 15:15:45 by hporta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,4 @@ int still_alive(t_philo *philo)
 	}
 	pthread_mutex_unlock(&(philo->table->life_data));
 	return (1);
-}
-
-void	if_only_one_philo(t_philo *philo)
-{
-	if (lock_unlock_life_if_death(philo))
-		return ;
-	thinking(philo);
-	if (lock_unlock_life_if_death(philo))
-		return ;
-	
 }

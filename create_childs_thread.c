@@ -6,7 +6,7 @@
 /*   By: hporta-c <hporta-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 16:59:49 by hporta-c          #+#    #+#             */
-/*   Updated: 2025/07/02 17:39:35 by hporta-c         ###   ########.fr       */
+/*   Updated: 2025/07/03 15:38:42 by hporta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,6 @@ void	*philo_routine(void *args)
 	t_philo	*philo;
 
 	philo = (t_philo *)args;
-	if (philo->table->nb_philos == 1)
-	{
-		if_only_one_philo(philo);
-		return (NULL);
-	}
 	while (still_alive(philo))
 	{
 		if (lock_unlock_life_if_death(philo))
@@ -69,7 +64,7 @@ int		everybd_ate_enough(t_table *control)
 	return (1);
 }
 
-void	update_hungry_death_info(t_table *cntl)
+int	update_hungry_death_info(t_table *cntl)
 {
 	int	i;
 
@@ -83,22 +78,23 @@ void	update_hungry_death_info(t_table *cntl)
 			print_routine(&(cntl->philos[i]), "died");
 			cntl->death = 1;
 			pthread_mutex_unlock(&(cntl->life_data));
-			return (NULL);
+			return (1);
 		}
 		pthread_mutex_unlock(&(cntl->life_data));
 		i++;
 	}
+	return (0);
 }
 
 void	*death_control(void *args)
 {
 	t_table *cntl;
-	int	i;
 
 	cntl = (t_table *)args;
 	while (1)
 	{
-		update_hungry_death_info(cntl);
+		if (update_hungry_death_info(cntl))
+			return (NULL);
     	if (everybd_ate_enough(cntl))
 		{
 			pthread_mutex_lock(&(cntl->life_data));

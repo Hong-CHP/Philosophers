@@ -6,7 +6,7 @@
 /*   By: hporta-c <hporta-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 10:44:02 by hporta-c          #+#    #+#             */
-/*   Updated: 2025/07/02 17:39:45 by hporta-c         ###   ########.fr       */
+/*   Updated: 2025/07/03 15:38:24 by hporta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int	create_childs_thread(pthread_t *phil, pthread_t *cntrl, t_table *t)
 
 int	childs_thread(t_table *table)
 {
-	int	i;
 	pthread_t	*controller;
 	pthread_t	*philosof;
 
